@@ -24,8 +24,23 @@ public class EquipamentoController {
         return reposity.save(body);
     }
 
-    @GetMapping
-    public List<Equipamento> listar(@PathVariable Long id){
-        return reposity.findById(id);
+    @GetMapping("/{id}")
+    public Equipamento buscarPorId(@PathVariable Long id){
+        var existe = reposity.findById(id);
+        if(existe.isEmpty()){
+            return null;
+        }
+        return existe.get();
     }
+
+    @PutMapping("/{id}")
+    public Equipamento atualizar(@PathVariable Long id, @RequestBody Equipamento body){
+        var att = reposity.findById(id);
+        if (att.isEmpty()) {
+            return null;
+        }
+        var atualizado = reposity.save(body);
+        return atualizado;
+    }
+
 }
